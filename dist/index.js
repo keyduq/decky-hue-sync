@@ -106,11 +106,11 @@ function Content() {
     };
     const onToggleHdr = (value) => {
         setHdrEnabled(value);
-        setHdr({ state: value ? 1 : 0 }).catch(console.error);
+        setHdr(value ? 1 : 0).catch(console.error);
     };
     const onChangeBrightness = (value) => {
         setBrightnessState(value);
-        setBrightness({ value }).catch(console.error);
+        setBrightness(value).catch(console.error);
     };
     return (SP_JSX.jsxs(DFL.PanelSection, { title: "Ambilight", children: [SP_JSX.jsx(DFL.PanelSectionRow, { children: SP_JSX.jsx(DFL.ButtonItem, { layout: "below", onClick: onClickToggleHue, children: "Activar / Desactivar Luces" }) }), SP_JSX.jsx(DFL.PanelSectionRow, { children: SP_JSX.jsx(DFL.ToggleField, { label: "Modo HDR", checked: hdrEnabled, onChange: onToggleHdr }) }), SP_JSX.jsx(DFL.PanelSectionRow, { children: SP_JSX.jsx(DFL.SliderField, { label: "Brillo", value: brightness, step: 1, max: 100, min: 1, onChange: onChangeBrightness }) })] }));
 }

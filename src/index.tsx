@@ -12,8 +12,8 @@ import { useEffect, useState } from "react";
 
 const toggleHue = callable<[], any>("toggle_hue");
 const getHyperHdrInfo = callable<[], any>("get_hyperhdr_info");
-const setHdr = callable<[{ state: number }], any>("set_hdr");
-const setBrightness = callable<[{ value: number }], any>("set_brightness");
+const setHdr = callable<[number], any>("set_hdr");
+const setBrightness = callable<[number], any>("set_brightness");
 
 function Content() {
   const [hdrEnabled, setHdrEnabled] = useState<boolean>(false);
@@ -36,12 +36,12 @@ function Content() {
 
   const onToggleHdr = (value: boolean) => {
     setHdrEnabled(value);
-    setHdr({ state: value ? 1 : 0 }).catch(console.error);
+    setHdr(value ? 1 : 0).catch(console.error);
   };
 
   const onChangeBrightness = (value: number) => {
     setBrightnessState(value);
-    setBrightness({ value }).catch(console.error);
+    setBrightness(value).catch(console.error);
   };
 
   return (
