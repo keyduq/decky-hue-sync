@@ -1,5 +1,7 @@
 import os
 import subprocess
+import urllib.request
+import json
 
 class Plugin:
     async def _main(self):
@@ -7,6 +9,45 @@ class Plugin:
 
     async def _unload(self):
         pass
+
+    async def get_hyperhdr_info(self):
+        try:
+            url = "http://localhost:8090/json-rpc"
+            payload = {"command": "serverinfo"}
+            req = urllib.request.Request(url, data=json.dumps(payload).encode('utf-8'), headers={'Content-Type': 'application/json'}, method='POST')
+            with urllib.request.urlopen(req, timeout=2) as response:
+                return json.loads(response.read().decode('utf-8'))
+        except Exception as e:
+            return {"error": str(e)}
+
+    async def set_hdr(self, state: int):
+        try:
+            url = "http://localhost:8090/json-rpc"
+            payload = {
+                "command": "videomodehdr",
+                "HDR": state
+            }
+            req = urllib.request.Request(url, data=json.dumps(payload).encode('utf-8'), headers={'Content-Type': 'application/json'}, method='POST')
+            with urllib.request.urlopen(req, timeout=2) as response:
+                return True
+        except Exception as e:
+            return str(e)
+
+    async def set_brightness(self, value: int):
+        try:
+            url = "http://localhost:8090/json-rpc"
+            payload = {
+                "command": "adjustment",
+                "adjustment": {
+                    "classic_config": False,
+                    "brightness": value
+                }
+            }
+            req = urllib.request.Request(url, data=json.dumps(payload).encode('utf-8'), headers={'Content-Type': 'application/json'}, method='POST')
+            with urllib.request.urlopen(req, timeout=2) as response:
+                return True
+        except Exception as e:
+            return str(e)
 
     async def toggle_hue(self):
         # 1. Copiamos el entorno y borramos las mentiras de Decky Loader
